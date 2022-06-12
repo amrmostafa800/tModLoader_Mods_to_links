@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 
 
@@ -15,18 +9,17 @@ namespace tModLoader_Mods_to_links
     public async static Task<string> RequestURl(string modname)
     {
         string url = $"http://javid.ddns.net/tModLoader/download.php?Down={modname}.tmod";
-        string content = null;
+        
         var client = new HttpClient();
-        var response = await client.GetAsync(url);
-        var responsestatuscode = (int)response.StatusCode;
-        //string data = responsestatuscode.ToString();
-        var responsestatuscode11 = response.RequestMessage;
-            string data = responsestatuscode11.ToString();
-            if (!data.Contains("javid.ddns"))
-            {
+        var result = await client.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
+        var result0 = result.ToString();
+            
+        if (result0.Contains("application/octet-stream"))
+        {
                 LinesAppend.LinesWrite(url);
-            }
-            return data;
+        }
+            
+        return result0;
     }
 }
 }

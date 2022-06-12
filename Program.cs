@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace tModLoader_Mods_to_links
-    
+
 {
     internal class Program
     {
@@ -26,24 +21,24 @@ namespace tModLoader_Mods_to_links
             string modname = Console.ReadLine();
             var resault00 = await Request.RequestURl(modname);
             var resault000 = resault00.ToString();
-            if (resault000.Contains("javid.ddns"))
+            if (resault000.Contains("lighttpd"))
             {
                 string modnameplusNewchar = "t" + modname;
                 var resaultFinal = await Request.RequestURl(modnameplusNewchar);
                 var resaultFinal0 = resaultFinal.ToString();
-                if (!resaultFinal0.Contains("javid.ddns"))
+                if (resaultFinal0.Contains("application/octet-stream"))
                 {
-                    Console.WriteLine("work");
+                    Console.WriteLine("done");
                 }
-                else if (resaultFinal0.Contains("javid.ddns"))
+                else if (!resaultFinal0.Contains("application/octet-stream"))
                 {
-                    Console.WriteLine("not work");
+                    Console.WriteLine("mod not found");
                 }
             }
             
-            else if (!resault000.Contains("javid.ddns"))
+            else if (resault000.Contains("application/octet-stream"))
             {
-                Console.WriteLine("test00");
+                Console.WriteLine("done");
             }
             
             await Main(args);
